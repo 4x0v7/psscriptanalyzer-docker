@@ -7,6 +7,7 @@ services:
 stages:
   - lint
   - build
+  - test
 
 # Login to Dockerhub
 before_script:
@@ -42,3 +43,10 @@ build-and-push-the-thing:
   script:
     - docker build --pull --tag "$DOCKERHUB_IMAGE" .
     - docker push "$DOCKERHUB_IMAGE"
+
+# Pull and test the Docker image
+pull-and-test-the-thing:
+  stage: test
+  script:
+    - docker pull "$DOCKERHUB_IMAGE"
+    - docker run -t -v ${PWD}:/powershell "$DOCKERHUB_IMAGE" . | grep PSAvoidUsingWriteHost
