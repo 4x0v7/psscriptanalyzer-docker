@@ -6,6 +6,11 @@ services:
 # Stages
 stages:
   - lint
+  - build
+
+# Login to Dockerhub
+before_script:
+  - docker login -u "$DOCKERHUB_USER" -p "$DOCKERHUB_PASSWORD"
 
 # Lint the Dockerfile using Hadolint
 lint-the-dockerfile:
@@ -30,3 +35,10 @@ lint-the-readme:
       mivok/markdownlint
       --rules ~MD013
       - < README.md
+
+# Build and push to Dockerhub
+build-and-push-the-thing:
+  stage: build
+  script:
+    - docker build --pull --tag "$DOCKERHUB_IMAGE" .
+    - docker push "$DOCKERHUB_IMAGE"
