@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/powershell:latest
+FROM mcr.microsoft.com/powershell:ubuntu-16.04
 
 RUN pwsh -c Set-PSRepository PSGallery -InstallationPolicy Trusted; \
     pwsh -c Install-Module -Name PSScriptAnalyzer > /dev/null
