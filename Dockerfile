@@ -5,4 +5,5 @@ RUN pwsh -c Set-PSRepository PSGallery -InstallationPolicy Trusted; \
 
 WORKDIR /powershell
 
-ENTRYPOINT [ "pwsh", "-c", "Invoke-ScriptAnalyzer", "-Recurse", "-Path" ]
+ENTRYPOINT [ "pwsh", "-c" ]
+CMD [ "Invoke-ScriptAnalyzer", "-EnableExit", "-Recurse", "-Path" ]
