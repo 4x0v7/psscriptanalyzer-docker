@@ -1,0 +1,32 @@
+# Use DinD
+image: docker
+services:
+- docker:dind
+
+# Stages
+stages:
+  - lint
+
+# Lint the Dockerfile using Hadolint
+lint-the-dockerfile:
+  stage: lint
+  script:
+    - docker pull hadolint/hadolint
+    - docker run hadolint/hadolint hadolint --version
+    - >
+      docker run -i
+      hadolint/hadolint hadolint
+      - < Dockerfile
+
+# Lint the README using markdownlint
+lint-the-readme:
+  stage: lint
+  allow_failure: false
+  script:
+    - docker pull mivok/markdownlint
+    - docker run mivok/markdownlint --version
+    - >
+      docker run -i
+      mivok/markdownlint
+      --rules ~MD013
+      - < README.md
