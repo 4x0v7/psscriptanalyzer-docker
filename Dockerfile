@@ -1,15 +1,8 @@
-FROM trevorsullivan/powershell:jessie
+FROM mcr.microsoft.com/powershell:latest
 
-RUN apt-get update && apt-get install -y wget ;\
-    wget https://raw.githubusercontent.com/PowerShell/PowerShell/master/src/Modules/Shared/PowerShellGet/PSModule.psm1 -O /opt/microsoft/powershell/6.0.0-alpha.9/Modules/PowerShellGet/PSModule.psm1
-
-RUN powershell Set-PSRepository PSGallery -InstallationPolicy Trusted;\
-    powershell Install-Module -Name PSScriptAnalyzer > /dev/null
-
-RUN echo '#!/usr/bin/env sh\n\
-powershell "\$results = Invoke-ScriptAnalyzer -Path . -Recurse $@; \$results; Exit \$results.Count" \n\
-' >> /usr/local/bin/script-analyzer.sh && chmod +x /usr/local/bin/script-analyzer.sh
+RUN pwsh -c Set-PSRepository PSGallery -InstallationPolicy Trusted; \
+    pwsh -c Install-Module -Name PSScriptAnalyzer > /dev/null
 
 WORKDIR /powershell
 
-ENTRYPOINT ["script-analyzer.sh"]
+ENTRYPOINT [ "pwsh", "-c", "Invoke-ScriptAnalyzer", "-Recurse", "-Path" ]
