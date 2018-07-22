@@ -49,4 +49,4 @@ pull-and-test-the-thing:
   stage: test
   script:
     - docker pull "$DOCKERHUB_IMAGE"
-    - docker run -t -v ${PWD}:/powershell "$DOCKERHUB_IMAGE" . | grep PSAvoidUsingWriteHost
+    - docker run -t "$DOCKERHUB_IMAGE" Get-InstalledModule | grep PSScriptAnalyzer
