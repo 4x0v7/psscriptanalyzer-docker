@@ -40,6 +40,9 @@ lint-the-readme:
 # Build and push to Dockerhub
 build-and-push-the-thing:
   stage: build
+  only:
+    refs:
+      - master
   script:
     - docker build --pull --tag "$DOCKERHUB_IMAGE" .
     - docker push "$DOCKERHUB_IMAGE"
